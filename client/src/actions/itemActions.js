@@ -1,50 +1,55 @@
-import axios from 'axios'
-import {GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEM_LOADING } from './types'
+import axios from "axios";
+import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEM_LOADING } from "./types";
+import { tokenConfig } from "./authActions";
+import { returnErrors } from "./errorActions";
 
-export const getItems = () => dispatch => {
-    console.log('get here 1')
-    dispatch(setItemLoading())
-    axios.get('/api/items')
-    .then(res => 
-        dispatch({
-            type: GET_ITEMS,
-            payload: res.data
-        }))
+export const getItems = () => (dispatch) => {
+  dispatch(setItemLoading());
+  axios
+    .get("/api/items")
+    .then((res) =>
+      dispatch({
+        type: GET_ITEMS,
+        payload: res.data,
+      })
+    )
+    .catch((err) => dispatch(err.response.data, err.response.status));
+};
 
-    // return {
-    //     type: GET_ITEMS
-    // }
-}
-
-export const deleteItem = (id) => dispatch => {
-    axios.delete(`/api/items/${id}`)
-    .then(res => 
-        dispatch({
+export const deleteItem = (id) => (dispatch, getState) => {
+  axios
+    .delete(`/api/items/${id}`, tokenConfig(getState))
+    .then((res) =>
+      dispatch({
         type: DELETE_ITEM,
-        payload: id
-        }))
-    // return {
-    //     type: DELETE_ITEM,
-    //     payload: id
-    // }
-}
+        payload: id,
+      })
+    )
+    .catch((err) => dispatch(err.response.data, err.response.status));
+  // return {
+  //     type: DELETE_ITEM,
+  //     payload: id
+  // }
+};
 
-export const addItem = (item) => dispatch => {
-    axios
-    .post('/api/items', item)
-    .then(res =>
-        dispatch({
-            type: ADD_ITEM,
-            payload: res.data
-        }))
-    // return {
-    //     type: ADD_ITEM,
-    //     payload: item
-    // }
-}
+export const addItem = (item) => (dispatch, getState) => {
+  axios
+    .post("/api/items", item, tokenConfig(getState))
+    .then((res) =>
+      dispatch({
+        type: ADD_ITEM,
+        payload: res.data,
+      })
+    )
+    .catch((err) => dispatch(err.response.data, err.response.status));
+  // return {
+  //     type: ADD_ITEM,
+  //     payload: item
+  // }
+};
 
 export const setItemLoading = () => {
-    return {
-        type: ITEM_LOADING
-    }
-}
+  return {
+    type: ITEM_LOADING,
+  };
+};
