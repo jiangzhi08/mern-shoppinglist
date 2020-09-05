@@ -1,7 +1,7 @@
 import axios from "axios";
 import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEM_LOADING } from "./types";
 import { tokenConfig } from "./authActions";
-import { returnErrors } from "./errorActions";
+// import { returnErrors } from "./errorActions";
 
 export const getItems = () => (dispatch) => {
   dispatch(setItemLoading());

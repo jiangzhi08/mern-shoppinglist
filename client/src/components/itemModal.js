@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { v4 as uuid } from "uuid";
+// import { v4 as uuid } from "uuid";
 import {
   Button,
   Modal,
@@ -9,6 +9,7 @@ import {
   FormGroup,
   Label,
   Input,
+  Alert,
 } from "reactstrap";
 import { connect } from "react-redux";
 import { addItem } from "../actions/itemActions";
@@ -17,7 +18,9 @@ import PropTypes from "prop-types";
 class ItemModal extends Component {
   state = {
     modal: false,
-    name: "",
+    order: "",
+    serial: "",
+    msg: null,
   };
 
   static propTypes = {
@@ -27,6 +30,7 @@ class ItemModal extends Component {
   toggle = () => {
     this.setState({
       modal: !this.state.modal,
+      msg: null,
     });
   };
 
@@ -37,8 +41,14 @@ class ItemModal extends Component {
   handleOnSubmit = (e) => {
     e.preventDefault();
 
+    if (this.state.order === "" || this.state.serial === "") {
+      this.setState({ msg: "please enter all fields" });
+      return;
+    }
+
     const newItem = {
-      name: this.state.name,
+      order: this.state.order,
+      serial: this.state.serial,
     };
 
     this.props.addItem(newItem);
@@ -57,20 +67,33 @@ class ItemModal extends Component {
             Add Item
           </Button>
         ) : (
-          <h4 className="mb-3 ml-4">Please Log in to manage items</h4>
+          <h2 className="m-3 ml-4">Please Log in to manage items</h2>
         )}
 
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Add To Command List</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Add To Item List</ModalHeader>
           <ModalBody>
+            {this.state.msg ? (
+              <Alert color="danger">{this.state.msg}</Alert>
+            ) : null}
             <Form onSubmit={this.handleOnSubmit}>
               <FormGroup>
-                <Label for="item">Item</Label>
+                <Label for="order">Work Order #</Label>
                 <Input
                   type="text"
-                  name="name"
-                  id="item"
-                  placeholder="Add Command item"
+                  name="order"
+                  id="item1"
+                  placeholder=""
+                  onChange={this.handleChangeName}
+                />
+                <br />
+                <br />
+                <Label for="serial">Serial #</Label>
+                <Input
+                  type="text"
+                  name="serial"
+                  id="item2"
+                  placeholder=""
                   onChange={this.handleChangeName}
                 />
                 <Button color="dark" style={{ marginTop: "2rem" }} block>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { v4 as uuid } from "uuid";
+// import { v4 as uuid } from "uuid";
 import {
   Button,
   Modal,
@@ -19,7 +19,7 @@ import { clearErrors } from "../../actions/errorActions";
 
 class LoginModal extends Component {
   state = {
-    modal: false,
+    modal: true,
     email: "",
     password: "",
     msg: null,

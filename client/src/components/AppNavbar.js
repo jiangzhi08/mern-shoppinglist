@@ -6,12 +6,6 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText,
 } from "reactstrap";
 
 import { connect } from "react-redux";
@@ -20,6 +14,7 @@ import PropTypes from "prop-types";
 import RegisterModal from "./auth/RegisterModal";
 import LoginModal from "./auth/LoginModal";
 import Logout from "./auth/Logout";
+import logo from "../images/main_logo.png";
 
 class AppNavbar extends Component {
   state = {
@@ -41,12 +36,12 @@ class AppNavbar extends Component {
 
     const authLinks = (
       <Fragment>
-        <NavItem>
+        <NavItem className="ml-5">
           <span className="navbar-text mr-3">
             <strong>{user ? `Welcome ${user.name}` : ""} </strong>
           </span>
         </NavItem>
-        <NavItem>
+        <NavItem className="ml-5">
           <Logout />
         </NavItem>
       </Fragment>
@@ -54,10 +49,10 @@ class AppNavbar extends Component {
 
     const guestLinks = (
       <Fragment>
-        <NavItem>
+        <NavItem className="ml-5">
           <RegisterModal />
         </NavItem>
-        <NavItem>
+        <NavItem className="ml-5">
           <LoginModal />
         </NavItem>
       </Fragment>
@@ -66,7 +61,9 @@ class AppNavbar extends Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">Command List</NavbarBrand>
+          <NavbarBrand href="/">
+            <img src={logo} alt="NCA" width="200" />
+          </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="mr-auto" navbar>
